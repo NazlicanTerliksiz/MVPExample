@@ -1,6 +1,7 @@
 package com.example.mvpexample.view.RickAndMorty
 
 import com.example.mvpexample.data.common.Resource
+import com.example.mvpexample.data.model.Result
 import com.example.mvpexample.data.model.RickAndMortyModel
 import com.example.mvpexample.domain.interactions.GetCharactersInteraction
 import com.example.mvpexample.view.simpson.SimpsonContract
@@ -24,26 +25,20 @@ class RickAndMortyPresenter @Inject constructor(private val getCharactersInterac
 
     fun getRickAndMortyCharacters() {
         CoroutineScope(Dispatchers.IO).launch {
-           val result = getCharactersInteraction.requestRickAndMortyCharacters()
+            getCharactersInteraction.requestRickAndMortyCharacters(object :
+                GetCharactersInteraction.GetCharacterListener {
+                override fun setRickAndMortyCharacters(rickAndMortyCharacters: List<Result>) {
+                    //setRickAndMortyCharacters(rickAndMortyCharacters)
+                    view?.setRickAndMortyCharacters(rickAndMortyCharacters)
+                }
+            })
         }
     }
 
-    override fun setRickAndMortyCharacters(body: List<RickAndMortyModel>) {
+/*    fun setRickAndMortyCharacters(body: List<Result>) {
         CoroutineScope(Dispatchers.Main).launch {
             view?.setRickAndMortyCharacters(body)
         }
-    }
-
-    override fun getErrorMessage(message: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            view?.errorShowSnackBar(message)
-        }
-    }
-
-    override fun getFailMessage(message: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            view?.failShowSnackBar(message)
-        }
-    }
+    }*/
 
 }

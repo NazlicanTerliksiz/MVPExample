@@ -6,11 +6,13 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 
-interface ApiServices {
 
+interface SimpsonApiService {
     @GET("quotes?count=20")
     suspend fun getSimpsonCharacters(): Response<MutableList<SimpsonModel>>
+}
 
+interface RickAndMortyApiService {
     @GET("character/?page=19")
-    fun getRickAndMortyCharacters(): Call<List<RickAndMortyModel>>
+    fun getRickAndMortyCharacters(): Call<RickAndMortyModel>
 }

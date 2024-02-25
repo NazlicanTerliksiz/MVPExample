@@ -41,7 +41,7 @@ class SimpsonPresenter @Inject constructor(private val getCharactersInteraction:
     override fun getSimpsonCharacters() {
         CoroutineScope(Dispatchers.IO).launch {
             when (val result = getCharactersInteraction.requestSimpsonCharacters()) {
-                is Resource.Success -> setSimspsonCharacters(result.data.body()!!)
+                is Resource.Success -> setSimpsonCharacters(result.data.body()!!)
                 is Resource.Fail -> getFailMessage(result.failMessage)
                 is Resource.Error -> getErrorMessage(result.errorMessage)
             }
@@ -67,7 +67,7 @@ class SimpsonPresenter @Inject constructor(private val getCharactersInteraction:
         }
     }
 
-    private fun setSimspsonCharacters(body: MutableList<SimpsonModel>) {
+    private fun setSimpsonCharacters(body: MutableList<SimpsonModel>) {
         CoroutineScope(Dispatchers.Main).launch {
             view?.setSimpsonData(body)
         }

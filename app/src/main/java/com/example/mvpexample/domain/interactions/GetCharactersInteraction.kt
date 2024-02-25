@@ -1,10 +1,12 @@
 package com.example.mvpexample.domain.interactions
 
+import android.util.Log
 import com.example.mvpexample.data.common.Resource
+import com.example.mvpexample.data.model.Result
 import com.example.mvpexample.data.model.RickAndMortyModel
 import com.example.mvpexample.data.model.SimpsonModel
-import com.example.mvpexample.data.services.ApiServices
-import com.example.mvpexample.infrastructure.MainApplication
+import com.example.mvpexample.data.services.RickAndMortyApiService
+import com.example.mvpexample.data.services.SimpsonApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Call
@@ -12,10 +14,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class GetCharactersInteraction @Inject constructor(private val apiServices: ApiServices) {
+class GetCharactersInteraction @Inject constructor(private val simpsonApiService: SimpsonApiService, private val rickAndMortyApiService: RickAndMortyApiService) {
 
     interface GetCharacterListener {
-        fun setRickAndMortyCharacters(rickAndMortyCharacters: MutableList<RickAndMortyModel>)
+        fun setRickAndMortyCharacters(rickAndMortyCharacters: List<Result>)
     }
 
     //main threadte verileri çağırma
@@ -30,7 +32,7 @@ class GetCharactersInteraction @Inject constructor(private val apiServices: ApiS
     suspend fun requestSimpsonCharacters(): Resource<Response<MutableList<SimpsonModel>>> =
         withContext(Dispatchers.IO) {
             try {
-                val response = apiServices.getSimpsonCharacters()
+                val response = simpsonApiService.getSimpsonCharacters()
                 if (response.isSuccessful) {
                     Resource.Success(response)
                 } else {
@@ -62,17 +64,23 @@ class GetCharactersInteraction @Inject constructor(private val apiServices: ApiS
 //        }
 //    }
 
-    fun requestRickAndMortyCharacters() {
-         apiServices.getRickAndMortyCharacters().enqueue(object : Callback<List<RickAndMortyModel>> {
+    fun requestRickAndMortyCharacters(listener : GetCharacterListener) {
+         rickAndMortyApiService.getRickAndMortyCharacters().enqueue(object : Callback<RickAndMortyModel> {
              override fun onResponse(
-                 call: Call<List<RickAndMortyModel>>,
-                 response: Response<List<RickAndMortyModel>>
+                 call: Call<RickAndMortyModel>,
+                 response: Response<RickAndMortyModel>
              ) {
-                response.body().orEmpty()
+                 if (response.isSuccessful) {
+                     listener.setRickAndMortyCharacters(response.body()?.results?: mutableListOf())
+                 }else{
+                     Log.d("failmessage", response.toString())
+                 }
              }
-             override fun onFailure(call: Call<List<RickAndMortyModel>>, t: Throwable) {
-                Resource.Error(t.message.toString())
+
+             override fun onFailure(call: Call<RickAndMortyModel>, t: Throwable) {
+                 Log.d("errormessage", t.message.toString())
              }
+
          })
      }
 }
