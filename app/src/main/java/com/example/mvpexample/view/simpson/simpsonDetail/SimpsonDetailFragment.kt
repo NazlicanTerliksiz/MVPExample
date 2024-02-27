@@ -1,4 +1,4 @@
-package com.example.mvpexample.view.simpsonDetail
+package com.example.mvpexample.view.simpson.simpsonDetail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

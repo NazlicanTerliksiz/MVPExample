@@ -40,10 +40,22 @@ class SimpsonPresenter @Inject constructor(private val getCharactersInteraction:
 
     override fun getSimpsonCharacters() {
         CoroutineScope(Dispatchers.IO).launch {
+            handler.post { view?.showProgressBar() }
             when (val result = getCharactersInteraction.requestSimpsonCharacters()) {
-                is Resource.Success -> setSimpsonCharacters(result.data.body()!!)
-                is Resource.Fail -> getFailMessage(result.failMessage)
-                is Resource.Error -> getErrorMessage(result.errorMessage)
+                is Resource.Success -> {
+                    setSimpsonCharacters(result.data.body()!!)
+                    handler.post { view?.hideProgressBar() }
+                }
+
+                is Resource.Fail -> {
+                    getFailMessage(result.failMessage)
+                    handler.post { view?.hideProgressBar() }
+                }
+
+                is Resource.Error -> {
+                    getErrorMessage(result.errorMessage)
+                    handler.post { view?.hideProgressBar() }
+                }
             }
         }
 

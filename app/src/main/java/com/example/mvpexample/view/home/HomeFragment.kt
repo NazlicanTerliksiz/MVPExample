@@ -22,6 +22,9 @@ class HomeFragment : Fragment() {
     ): View? {
         val binding = FragmentHomeBinding.inflate(layoutInflater)
 
+        val name = arguments?.getString("name")
+        binding.welcomeTv.text = String.format("Welcome %s", name)
+
         val adapter = ViewPagerAdapter(requireActivity())
         binding.viewPager2.adapter = adapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager2){ tabLayout, index ->

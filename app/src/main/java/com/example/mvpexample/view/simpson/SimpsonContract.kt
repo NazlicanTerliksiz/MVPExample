@@ -15,6 +15,12 @@ class SimpsonContract {
         fun errorShowSnackBar(message: String)
 
         fun failShowSnackBar(message: String)
+
+        fun showProgressBar() {
+
+        }
+        fun hideProgressBar()
+
     }
 
     interface SimpsonPresenterContract {

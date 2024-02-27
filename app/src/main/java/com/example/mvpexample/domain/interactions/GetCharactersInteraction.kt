@@ -17,7 +17,7 @@ import javax.inject.Inject
 class GetCharactersInteraction @Inject constructor(private val simpsonApiService: SimpsonApiService, private val rickAndMortyApiService: RickAndMortyApiService) {
 
     interface GetCharacterListener {
-        fun setRickAndMortyCharacters(rickAndMortyCharacters: List<Result>)
+        fun setRickAndMortyCharacters(rickAndMortyCharacters: MutableList<Result>)
     }
 
     //main threadte verileri çağırma
@@ -71,7 +71,7 @@ class GetCharactersInteraction @Inject constructor(private val simpsonApiService
                  response: Response<RickAndMortyModel>
              ) {
                  if (response.isSuccessful) {
-                     listener.setRickAndMortyCharacters(response.body()?.results?: mutableListOf())
+                     listener.setRickAndMortyCharacters((response.body()?.results.orEmpty()).toMutableList())
                  }else{
                      Log.d("failmessage", response.toString())
                  }

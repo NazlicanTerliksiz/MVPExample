@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import com.example.mvpexample.R
 import com.example.mvpexample.data.model.SimpsonModel
 import com.example.mvpexample.databinding.FragmentSimpsonBinding
-import com.example.mvpexample.view.simpsonDetail.SimpsonDetailFragment
+import com.example.mvpexample.util.gone
+import com.example.mvpexample.util.visible
+import com.example.mvpexample.view.simpson.simpsonDetail.SimpsonDetailFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -20,8 +22,8 @@ class SimpsonFragment : Fragment(), SimpsonContract.SimpsonViewContract {
     @Inject
     lateinit var simpsonPresenter: SimpsonPresenter
 
-    private lateinit var simpsonAdapter: SimpsonAdapter
     private lateinit var binding: FragmentSimpsonBinding
+    private lateinit var simpsonAdapter: SimpsonAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,6 +75,14 @@ class SimpsonFragment : Fragment(), SimpsonContract.SimpsonViewContract {
 
     override fun failShowSnackBar(message: String) {
         Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showProgressBar() {
+        binding.progressBar.visible()
+    }
+
+    override fun hideProgressBar() {
+        binding.progressBar.gone()
     }
 
 }

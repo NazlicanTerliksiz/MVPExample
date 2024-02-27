@@ -6,9 +6,13 @@ class RickAndMortyContract {
 
     interface RickAndMortyViewContract {
 
-        fun setRickAndMortyCharacters(charactersList: List<Result>)
+        fun setRickAndMortyCharacters(charactersList: MutableList<Result>)
 
         fun onDestroyView()
+
+        fun showProgressBar()
+
+        fun hideProgressBar()
 
     }
 

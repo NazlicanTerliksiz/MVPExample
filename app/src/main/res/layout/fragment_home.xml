@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
     <!--    <fragment-->
     <!--        android:id="@+id/nav_host_fragment"-->
@@ -20,13 +20,26 @@
     <!--        app:defaultNavHost="true"-->
     <!--        app:navGraph="@navigation/nav_graph" />-->
 
+    <TextView
+        android:id="@+id/welcomeTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hoşgeldin Nazlıcan"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tabLayout"/>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+       app:layout_constraintTop_toBottomOf="@id/welcomeTv">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -36,7 +49,7 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Harry Pother" />
+            android:text="Rick And Morty" />
 
     </com.google.android.material.tabs.TabLayout>
 
